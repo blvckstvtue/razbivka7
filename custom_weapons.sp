@@ -3693,8 +3693,13 @@ public Action:NormalSoundHook(clients[64], &numClients, String:sample[PLATFORM_M
 {
 	if (0 < entity <= MaxClients && IsCustom[entity] && (channel == SNDCHAN_WEAPON || channel == SNDCHAN_ITEM) && volume > 0.0)
 	{
-		channel = SNDCHAN_AUTO;
-		return Plugin_Changed;
+		// Блокира звуците САМО ако има зададени custom звуци ИЛИ StopSounds е включен
+		new Sequence = CSViewModel_GetSequence(ClientVM[entity]);
+		if (HasSoundAt[entity][Sequence] || StopSounds[entity])
+		{
+			channel = SNDCHAN_AUTO;
+			return Plugin_Changed;
+		}
 	}
 	return Plugin_Continue;
 }
