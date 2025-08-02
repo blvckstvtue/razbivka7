@@ -3201,18 +3201,6 @@ GetPrecachedModelOfIndex(index, String:buffer[], maxlength)
 	ReadStringTable(g_iTable, index, buffer, maxlength);
 }
 
-stock FakePrecacheSound(const String:szPath[])
-{
-	static hTable = INVALID_STRING_TABLE;
-
-	if (hTable == INVALID_STRING_TABLE)
-	{
-		hTable = FindStringTable("soundprecache");
-	}
-	
-	AddToStringTable(hTable, szPath);
-}
-
 stock AddToDownloadsTable(String:path[], bool:recursive=true)
 {
 	if (path[0] == '\0')
@@ -3356,14 +3344,6 @@ stock AddInFrontOf(const Float:vecOrigin[3], const Float:vecAngle[3], Float:unit
 	output[0] = vecView[0] * units + vecOrigin[0];
 	output[1] = vecView[1] * units + vecOrigin[1];
 	output[2] = vecView[2] * units + vecOrigin[2];
-}
-
-stock bool:IsSoundFile(const String:sound[])
-{
-	decl String:buf[4];
-	ZGetExtension(sound, buf, sizeof(buf));
-	
-	return (!strcmp(buf, "mp3", false) || !strcmp(buf, "wav", false));
 }
 
 stock ZGetExtension(const String:path[], String:buffer[], size)
