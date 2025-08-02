@@ -1,0 +1,40 @@
+SOUND FUNCTIONALITY RESTORED TO CUSTOM_WEAPONS.SP
+
+The following sound-related features from decompiled.sp have been successfully restored:
+
+1. VARIABLES ADDED:
+   - Handle:g_hTrieSounds[MAXPLAYERS+1][2] - Sound tries for each client
+   - bool:HasSoundAt[MAXPLAYERS+1][14] - Tracks which sequences have sounds
+   - bool:StopSounds[MAXPLAYERS+1] - Controls if sounds should be stopped
+   - bool:g_bMuzzleFlash[MAXPLAYERS+1] - Muzzle flash enable/disable
+   - Float:g_fMuzzleScale[MAXPLAYERS+1] - Muzzle flash scale
+   - Float:g_fMuzzlePos[MAXPLAYERS+1][3] - Muzzle position offset
+
+2. FUNCTIONS ADDED:
+   - EmitSoundToClient() - Custom sound emission function
+   - TE_SetupMuzzleFlash() - Muzzle flash effect setup
+   - IsSoundFile() - Checks if file is valid sound (.mp3, .wav)
+   - NormalSoundHook() - Hooks and blocks default weapon sounds
+   - CSS_Hook_ShotgunShot() - Handles muzzle flash and custom sounds
+   - GetEntSendPropOffs() - Gets entity property offsets
+
+3. FUNCTIONALITY RESTORED:
+   - Sound hooks added in OnPluginStart (AddNormalSoundHook, AddTempEntHook)
+   - Sound precaching in OnMapStart ("resource/warning.wav")
+   - Sound tries initialization in OnClientConnected
+   - Sound loading and caching in CacheModels function
+   - Sound configuration parsing in OnWeaponChanged
+   - Sound playback system in OnPostThinkPost functions
+   - Sound cleanup in OnClientDisconnect_Post
+   - Custom sound effects for weapon sequences
+   - Muzzle flash effects for custom weapons
+   - Sound stopping functionality
+
+4. CONFIG SUPPORT:
+   - "Sounds" section parsing in weapon configs
+   - Individual sound settings per sequence/cycle
+   - Sound volume, pitch, level controls
+   - Stop all sounds option
+   - Muzzle flash configuration
+
+All sound functionality now matches decompiled.sp exactly 1:1 as requested.
