@@ -8,12 +8,12 @@ $filter_category = isset($_GET['category']) ? $_GET['category'] : 'all';
 $filtered_projects = getProjectsFromDatabase($filter_category);
 ?>
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="<?= $current_language ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Проекти - <?= $site_config['company_name'] ?></title>
-    <meta name="description" content="Разгледайте нашите завършени проекти в програмиране, дизайн, сървъри и скриптове.">
+    <title><?= t('projects_page_title') ?> - <?= $site_config['company_name'] ?></title>
+    <meta name="description" content="<?= t('projects_meta_description') ?>">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -23,6 +23,7 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
     <!-- CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/projects.css" rel="stylesheet">
+    <link href="assets/css/language-switcher.css" rel="stylesheet">
 </head>
 <body>
     <!-- Navigation -->
@@ -37,12 +38,27 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
             
             <div class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
-                    <li><a href="index.php" class="nav-link">Начало</a></li>
-                    <li><a href="index.php#about" class="nav-link">За нас</a></li>
-                    <li><a href="index.php#services" class="nav-link">Услуги</a></li>
-                    <li><a href="projects.php" class="nav-link active">Проекти</a></li>
-                    <li><a href="index.php#contact" class="nav-link">Контакт</a></li>
+                    <li><a href="index.php" class="nav-link"><?= t('nav_home') ?></a></li>
+                    <li><a href="index.php#about" class="nav-link"><?= t('nav_about') ?></a></li>
+                    <li><a href="index.php#services" class="nav-link"><?= t('nav_services') ?></a></li>
+                    <li><a href="projects.php" class="nav-link active"><?= t('nav_projects') ?></a></li>
+                    <li><a href="index.php#contact" class="nav-link"><?= t('nav_contact') ?></a></li>
                 </ul>
+                
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <?php if ($current_language === 'en'): ?>
+                        <a href="?lang=bg<?= $filter_category !== 'all' ? '&category=' . urlencode($filter_category) : '' ?>" class="lang-btn" title="<?= t('lang_switch_to_bg') ?>">
+                            <i class="fas fa-globe"></i>
+                            <?= t('lang_bg') ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="?lang=en<?= $filter_category !== 'all' ? '&category=' . urlencode($filter_category) : '' ?>" class="lang-btn" title="<?= t('lang_switch_to_en') ?>">
+                            <i class="fas fa-globe"></i>
+                            <?= t('lang_en') ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
             
             <div class="nav-toggle" id="nav-toggle">
@@ -63,25 +79,24 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
         <div class="container">
             <div class="projects-hero-content" data-aos="fade-up">
                 <h1 class="projects-title">
-                    <span class="title-accent">НАШИТЕ</span>
-                    <span class="glitch-text">ПРОЕКТИ</span>
+                    <?= t('projects_hero_title') ?>
                 </h1>
                 <p class="projects-subtitle">
-                    Разгледайте колекцията ни от иновативни проекти и решения
+                    <?= t('projects_hero_subtitle') ?>
                 </p>
                 
                 <div class="projects-stats">
                     <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
                         <div class="stat-number" data-count="<?= count($projects) ?>">0</div>
-                        <div class="stat-label">Общо проекти</div>
+                        <div class="stat-label"><?= t('projects_stat_total') ?></div>
                     </div>
                     <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
                         <div class="stat-number" data-count="<?= count(array_filter($projects, function($p) { return $p['status'] === 'completed'; })) ?>">0</div>
-                        <div class="stat-label">Завършени</div>
+                        <div class="stat-label"><?= t('projects_stat_completed') ?></div>
                     </div>
                     <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
                         <div class="stat-number" data-count="<?= count(array_unique(array_column($projects, 'category'))) ?>">0</div>
-                        <div class="stat-label">Категории</div>
+                        <div class="stat-label"><?= t('projects_stat_categories') ?></div>
                     </div>
                 </div>
             </div>
@@ -92,7 +107,7 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
     <section class="projects-filter">
         <div class="container">
             <div class="filter-container" data-aos="fade-up">
-                <h3 class="filter-title">Филтрирай по категория</h3>
+                <h3 class="filter-title"><?= t('projects_filter_title') ?></h3>
                 <div class="filter-buttons">
                     <?php foreach($project_categories as $key => $name): ?>
                     <a href="projects.php<?= $key !== 'all' ? '?category=' . urlencode($key) : '' ?>" 
@@ -117,25 +132,25 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                             <div class="project-actions">
                                 <button class="action-btn" onclick="openProjectModal('<?= $project['id'] ?>')">
                                     <i class="fas fa-eye"></i>
-                                    <span>Детайли</span>
+                                    <span><?= t('projects_view_details') ?></span>
                                 </button>
                                 <?php if($project['url'] !== '#'): ?>
                                 <a href="<?= $project['url'] ?>" target="_blank" class="action-btn">
                                     <i class="fas fa-external-link-alt"></i>
-                                    <span>Виж проекта</span>
+                                    <span><?= t('projects_detail_visit') ?></span>
                                 </a>
                                 <?php endif; ?>
                                 <?php if($project['github'] !== '#'): ?>
                                 <a href="<?= $project['github'] ?>" target="_blank" class="action-btn">
                                     <i class="fab fa-github"></i>
-                                    <span>GitHub</span>
+                                    <span><?= t('projects_detail_github') ?></span>
                                 </a>
                                 <?php endif; ?>
                             </div>
                         </div>
                         
                         <div class="project-status status-<?= $project['status'] ?>">
-                            <?= $project['status'] === 'completed' ? 'Завършен' : 'В процес' ?>
+                            <?= $project['status'] === 'completed' ? t('projects_stat_completed') : ($current_language === 'bg' ? 'В процес' : 'In Progress') ?>
                         </div>
                     </div>
                     
@@ -173,9 +188,9 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                 <div class="no-projects-icon">
                     <i class="fas fa-search"></i>
                 </div>
-                <h3>Няма намерени проекти</h3>
-                <p>Не са намерени проекти в тази категория.</p>
-                <a href="projects.php" class="btn btn-primary">Виж всички проекти</a>
+                <h3><?= t('projects_no_results') ?></h3>
+                <p><?= t('projects_no_results') ?></p>
+                <a href="projects.php" class="btn btn-primary"><?= t('projects_back_to_all') ?></a>
             </div>
             <?php endif; ?>
         </div>
@@ -261,32 +276,32 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                 <div class="modal-info">
                     <div class="project-details">
                         <div class="detail-item">
-                            <strong>Категория:</strong>
+                            <strong><?= ucfirst(t('projects_detail_categories', 'Category')) ?>:</strong>
                             <span><?= $project_categories[$project['category']] ?? $project['category'] ?></span>
                         </div>
                         <div class="detail-item">
-                            <strong>Статус:</strong>
+                            <strong><?= ucfirst(t('projects_detail_status')) ?>:</strong>
                             <span class="status-<?= $project['status'] ?>">
-                                <?= $project['status'] === 'completed' ? 'Завършен' : 'В процес' ?>
+                                <?= $project['status'] === 'completed' ? t('projects_stat_completed') : ($current_language === 'bg' ? 'В процес' : 'In Progress') ?>
                             </span>
                         </div>
                         <div class="detail-item">
-                            <strong>Дата:</strong>
+                            <strong><?= ucfirst(t('projects_detail_date')) ?>:</strong>
                             <span><?= date('F Y', strtotime($project['date'])) ?></span>
                         </div>
                         <div class="detail-item">
-                            <strong>Клиент:</strong>
+                            <strong><?= ucfirst(t('projects_detail_client')) ?>:</strong>
                             <span><?= $project['client'] ?></span>
                         </div>
                     </div>
                     
                     <div class="project-description-full">
-                        <h4>Описание</h4>
+                        <h4><?= ucfirst($current_language === 'bg' ? 'Описание' : 'Description') ?></h4>
                         <p><?= $project['long_description'] ?></p>
                     </div>
                     
                     <div class="project-features">
-                        <h4>Функционалности</h4>
+                        <h4><?= ucfirst(t('projects_detail_features')) ?></h4>
                         <ul>
                             <?php foreach($project['features'] as $feature): ?>
                             <li><i class="fas fa-check"></i> <?= $feature ?></li>
@@ -295,7 +310,7 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                     </div>
                     
                     <div class="project-technologies">
-                        <h4>Технологии</h4>
+                        <h4><?= ucfirst(t('projects_detail_technologies')) ?></h4>
                         <div class="tech-tags">
                             <?php foreach($project['technologies'] as $tech): ?>
                             <span class="tech-tag"><?= $tech ?></span>
@@ -307,13 +322,13 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                         <?php if(!empty($project['url']) && $project['url'] !== '#'): ?>
                         <a href="<?= $project['url'] ?>" target="_blank" class="btn btn-primary">
                             <i class="fas fa-external-link-alt"></i>
-                            Виж проекта
+                            <?= t('projects_detail_visit') ?>
                         </a>
                         <?php endif; ?>
                         <?php if(!empty($project['github']) && $project['github'] !== '#'): ?>
                         <a href="<?= $project['github'] ?>" target="_blank" class="btn btn-outline">
                             <i class="fab fa-github"></i>
-                            GitHub
+                            <?= t('projects_detail_github') ?>
                         </a>
                         <?php endif; ?>
                     </div>
@@ -331,17 +346,17 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
         
         <div class="container">
             <div class="cta-content" data-aos="fade-up">
-                <h2 class="cta-title">Харесва ви това което виждате?</h2>
+                <h2 class="cta-title"><?= $current_language === 'bg' ? 'Харесва ви това което виждате?' : 'Like what you see?' ?></h2>
                 <p class="cta-description">
-                    Нека работим заедно върху вашия следващ проект
+                    <?= $current_language === 'bg' ? 'Нека работим заедно върху вашия следващ проект' : 'Let\'s work together on your next project' ?>
                 </p>
                 <div class="cta-buttons">
                     <a href="index.php#contact" class="btn btn-primary btn-glow">
-                        <span>Свържи се с нас</span>
+                        <span><?= t('cta_contact_us') ?></span>
                         <i class="fas fa-envelope"></i>
                     </a>
                     <a href="index.php" class="btn btn-outline">
-                        <span>Обратно към началото</span>
+                        <span><?= $current_language === 'bg' ? 'Обратно към началото' : 'Back to home' ?></span>
                         <i class="fas fa-home"></i>
                     </a>
                 </div>
@@ -365,26 +380,26 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
                 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>Услуги</h4>
+                        <h4><?= t('footer_services') ?></h4>
                         <ul>
-                            <li><a href="index.php#services">Програмиране</a></li>
-                            <li><a href="index.php#services">Дизайн</a></li>
-                            <li><a href="index.php#services">Game сървъри</a></li>
-                            <li><a href="index.php#services">Скриптове</a></li>
+                            <li><a href="index.php#services"><?= t('footer_programming') ?></a></li>
+                            <li><a href="index.php#services"><?= t('footer_design') ?></a></li>
+                            <li><a href="index.php#services"><?= t('footer_servers') ?></a></li>
+                            <li><a href="index.php#services"><?= t('footer_scripts') ?></a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Компания</h4>
+                        <h4><?= t('footer_company') ?></h4>
                         <ul>
-                            <li><a href="index.php#about">За нас</a></li>
-                            <li><a href="projects.php">Проекти</a></li>
-                            <li><a href="index.php#contact">Контакт</a></li>
+                            <li><a href="index.php#about"><?= t('footer_about') ?></a></li>
+                            <li><a href="projects.php"><?= t('footer_projects') ?></a></li>
+                            <li><a href="index.php#contact"><?= t('footer_contact') ?></a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Следвай ни</h4>
+                        <h4><?= t('footer_follow') ?></h4>
                         <div class="footer-social">
                             <?php foreach($site_config['social'] as $platform => $url): ?>
                                 <?php if($url !== '#'): ?>
@@ -399,7 +414,7 @@ $filtered_projects = getProjectsFromDatabase($filter_category);
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; <?= date('Y') ?> <?= $site_config['company_name'] ?>. Всички права запазени.</p>
+                <p>&copy; <?= date('Y') ?> <?= $site_config['company_name'] ?>. <?= t('footer_rights') ?></p>
             </div>
         </div>
     </footer>
