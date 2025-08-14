@@ -2,7 +2,7 @@
 require_once 'config.php';
 ?>
 <!DOCTYPE html>
-<html lang="bg">
+<html lang="<?= $current_language ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +15,7 @@ require_once 'config.php';
     
     <!-- CSS -->
     <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/language-switcher.css" rel="stylesheet">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
@@ -45,12 +46,27 @@ require_once 'config.php';
             
             <div class="nav-menu" id="nav-menu">
                 <ul class="nav-list">
-                    <li><a href="#home" class="nav-link active">Начало</a></li>
-                    <li><a href="#about" class="nav-link">За нас</a></li>
-                    <li><a href="#services" class="nav-link">Услуги</a></li>
-                    <li><a href="projects.php" class="nav-link">Проекти</a></li>
-                    <li><a href="#contact" class="nav-link">Контакт</a></li>
+                    <li><a href="#home" class="nav-link active"><?= t('nav_home') ?></a></li>
+                    <li><a href="#about" class="nav-link"><?= t('nav_about') ?></a></li>
+                    <li><a href="#services" class="nav-link"><?= t('nav_services') ?></a></li>
+                    <li><a href="projects.php" class="nav-link"><?= t('nav_projects') ?></a></li>
+                    <li><a href="#contact" class="nav-link"><?= t('nav_contact') ?></a></li>
                 </ul>
+                
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <?php if ($current_language === 'en'): ?>
+                        <a href="?lang=bg" class="lang-btn" title="<?= t('lang_switch_to_bg') ?>">
+                            <i class="fas fa-globe"></i>
+                            <?= t('lang_bg') ?>
+                        </a>
+                    <?php else: ?>
+                        <a href="?lang=en" class="lang-btn" title="<?= t('lang_switch_to_en') ?>">
+                            <i class="fas fa-globe"></i>
+                            <?= t('lang_en') ?>
+                        </a>
+                    <?php endif; ?>
+                </div>
             </div>
             
             <div class="nav-toggle" id="nav-toggle">
@@ -253,7 +269,7 @@ require_once 'config.php';
                     <p class="project-description"><?= $featured_project['long_description'] ?></p>
                     
                     <div class="project-technologies">
-                        <h4>Използвани технологии:</h4>
+                        <h4><?= t('featured_technologies') ?></h4>
                         <div class="tech-tags">
                             <?php foreach($featured_project['technologies'] as $tech): ?>
                             <span class="tech-tag"><?= $tech ?></span>
@@ -262,7 +278,7 @@ require_once 'config.php';
                     </div>
                     
                     <div class="project-features">
-                        <h4>Ключови функции:</h4>
+                        <h4><?= t('featured_features') ?></h4>
                         <ul class="features-list">
                             <?php foreach(array_slice($featured_project['features'], 0, 4) as $feature): ?>
                             <li><i class="fas fa-check"></i> <?= $feature ?></li>
@@ -272,11 +288,11 @@ require_once 'config.php';
                     
                     <div class="project-actions">
                         <a href="projects.php?project=<?= $featured_project['id'] ?>" class="btn btn-primary">
-                            <span>Виж повече</span>
+                            <span><?= t('featured_view_more') ?></span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
                         <a href="projects.php" class="btn btn-outline">
-                            <span>Всички проекти</span>
+                            <span><?= t('featured_all_projects') ?></span>
                             <i class="fas fa-folder-open"></i>
                         </a>
                     </div>
@@ -294,17 +310,17 @@ require_once 'config.php';
         
         <div class="container">
             <div class="cta-content" data-aos="fade-up">
-                <h2 class="cta-title">Готови за следващия проект?</h2>
+                <h2 class="cta-title"><?= t('cta_title') ?></h2>
                 <p class="cta-description">
-                    Свържете се с нас днес и нека създадем нещо невероятно заедно
+                    <?= t('cta_description') ?>
                 </p>
                 <div class="cta-buttons">
                     <a href="projects.php" class="btn btn-primary btn-glow">
-                        <span>Виж нашите проекти</span>
+                        <span><?= t('cta_view_projects') ?></span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="#contact" class="btn btn-outline">
-                        <span>Свържи се с нас</span>
+                        <span><?= t('cta_contact_us') ?></span>
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
@@ -318,9 +334,9 @@ require_once 'config.php';
             <div class="section-header" data-aos="fade-up">
                 <h2 class="section-title">
                     <span class="title-number">04</span>
-                    КОНТАКТ
+                    <?= t('contact_title') ?>
                 </h2>
-                <p class="section-subtitle">Свържете се с нас за вашия следващ проект</p>
+                <p class="section-subtitle"><?= t('contact_subtitle') ?></p>
             </div>
             
             <div class="contact-content">
@@ -330,7 +346,7 @@ require_once 'config.php';
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Email</h4>
+                            <h4><?= t('contact_email') ?></h4>
                             <p><?= $site_config['email'] ?></p>
                         </div>
                     </div>
@@ -340,7 +356,7 @@ require_once 'config.php';
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Телефон</h4>
+                            <h4><?= t('contact_phone') ?></h4>
                             <p><?= $site_config['phone'] ?></p>
                         </div>
                     </div>
@@ -350,7 +366,7 @@ require_once 'config.php';
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div class="contact-details">
-                            <h4>Адрес</h4>
+                            <h4><?= t('contact_address') ?></h4>
                             <p><?= $site_config['address'] ?></p>
                         </div>
                     </div>
@@ -370,26 +386,26 @@ require_once 'config.php';
                     <form id="contact-form">
                         <div class="form-group">
                             <input type="text" id="name" name="name" required>
-                            <label for="name">Име</label>
+                            <label for="name"><?= t('contact_form_name') ?></label>
                         </div>
                         
                         <div class="form-group">
                             <input type="email" id="email" name="email" required>
-                            <label for="email">Email</label>
+                            <label for="email"><?= t('contact_form_email') ?></label>
                         </div>
                         
                         <div class="form-group">
                             <input type="text" id="subject" name="subject" required>
-                            <label for="subject">Тема</label>
+                            <label for="subject"><?= t('contact_form_subject') ?></label>
                         </div>
                         
                         <div class="form-group">
                             <textarea id="message" name="message" required></textarea>
-                            <label for="message">Съобщение</label>
+                            <label for="message"><?= t('contact_form_message') ?></label>
                         </div>
                         
                         <button type="submit" class="btn btn-primary btn-glow">
-                            <span>Изпрати съобщение</span>
+                            <span><?= t('contact_form_send') ?></span>
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </form>
@@ -414,26 +430,26 @@ require_once 'config.php';
                 
                 <div class="footer-links">
                     <div class="footer-column">
-                        <h4>Услуги</h4>
+                        <h4><?= t('footer_services') ?></h4>
                         <ul>
-                            <li><a href="#">Програмиране</a></li>
-                            <li><a href="#">Дизайн</a></li>
-                            <li><a href="#">Game сървъри</a></li>
-                            <li><a href="#">Скриптове</a></li>
+                            <li><a href="#"><?= t('footer_programming') ?></a></li>
+                            <li><a href="#"><?= t('footer_design') ?></a></li>
+                            <li><a href="#"><?= t('footer_servers') ?></a></li>
+                            <li><a href="#"><?= t('footer_scripts') ?></a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Компания</h4>
+                        <h4><?= t('footer_company') ?></h4>
                         <ul>
-                            <li><a href="#about">За нас</a></li>
-                            <li><a href="projects.php">Проекти</a></li>
-                            <li><a href="#contact">Контакт</a></li>
+                            <li><a href="#about"><?= t('footer_about') ?></a></li>
+                            <li><a href="projects.php"><?= t('footer_projects') ?></a></li>
+                            <li><a href="#contact"><?= t('footer_contact') ?></a></li>
                         </ul>
                     </div>
                     
                     <div class="footer-column">
-                        <h4>Следвай ни</h4>
+                        <h4><?= t('footer_follow') ?></h4>
                         <div class="footer-social">
                             <?php foreach($site_config['social'] as $platform => $url): ?>
                                 <?php if($url !== '#'): ?>
@@ -448,7 +464,7 @@ require_once 'config.php';
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; <?= date('Y') ?> <?= $site_config['company_name'] ?>. Всички права запазени.</p>
+                <p>&copy; <?= date('Y') ?> <?= $site_config['company_name'] ?>. <?= t('footer_rights') ?></p>
             </div>
         </div>
     </footer>

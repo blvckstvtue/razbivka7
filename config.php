@@ -2,6 +2,43 @@
 // config.php - Конфигурация за портфолио на LionDevs
 require_once __DIR__ . '/database/config.php';
 
+// Language system
+session_start();
+
+// Set default language to English
+$current_language = isset($_SESSION['language']) ? $_SESSION['language'] : 'en';
+
+// Handle language switching
+if (isset($_GET['lang']) && in_array($_GET['lang'], ['en', 'bg'])) {
+    $_SESSION['language'] = $_GET['lang'];
+    $current_language = $_GET['lang'];
+    
+    // Redirect to remove lang parameter from URL
+    $redirect_url = strtok($_SERVER["REQUEST_URI"], '?');
+    if (!empty($_GET)) {
+        $params = $_GET;
+        unset($params['lang']);
+        if (!empty($params)) {
+            $redirect_url .= '?' . http_build_query($params);
+        }
+    }
+    header("Location: $redirect_url");
+    exit;
+}
+
+// Load language file
+$lang = [];
+$lang_file = __DIR__ . "/languages/{$current_language}.php";
+if (file_exists($lang_file)) {
+    $lang = require $lang_file;
+}
+
+// Translation function
+function t($key, $default = '') {
+    global $lang;
+    return isset($lang[$key]) ? $lang[$key] : ($default ?: $key);
+}
+
 // Основни настройки на сайта
 $site_config = [
     'company_name' => 'LionDevs',
@@ -24,74 +61,74 @@ $site_config = [
 $homepage_sections = [
     'hero' => [
         'title' => 'LIONDEVS',
-        'subtitle' => 'UNLEASHING DIGITAL EXCELLENCE',
-        'description' => 'Ние създаваме уникални програми, дизайни, сървъри и скриптове. Всеки проект е направен с перфекция и внимание към детайлите.',
+        'subtitle' => t('hero_subtitle'),
+        'description' => t('hero_description'),
         'background_image' => 'assets/images/hero-bg.jpg',
         'cta_primary' => [
-            'text' => 'Виж Проектите',
+            'text' => t('hero_cta_primary'),
             'link' => 'projects.php'
         ],
         'cta_secondary' => [
-            'text' => 'Свържи се с нас',
+            'text' => t('hero_cta_secondary'),
             'link' => '#contact'
         ]
     ],
     'about' => [
-        'title' => 'КОИ СМЕ НИЕ',
-        'subtitle' => 'Професионалисти в програмирането',
-        'description' => 'LionDevs е компания която се специализира в създаване на иновативни решения. От програми до дизайни, от сървъри на игри до сложни скриптове - ние правим всичко с най-високо качество.',
+        'title' => t('about_title'),
+        'subtitle' => t('about_subtitle'),
+        'description' => t('about_description'),
         'stats' => [
-            ['number' => '50+', 'label' => 'Завършени проекти'],
-            ['number' => '25+', 'label' => 'Доволни клиенти'],
-            ['number' => '3+', 'label' => 'Години опит'],
-            ['number' => '100%', 'label' => 'Качество']
+            ['number' => '50+', 'label' => t('about_stat_projects')],
+            ['number' => '25+', 'label' => t('about_stat_clients')],
+            ['number' => '3+', 'label' => t('about_stat_experience')],
+            ['number' => '100%', 'label' => t('about_stat_quality')]
         ]
     ],
     'services' => [
-        'title' => 'НАШИТЕ УСЛУГИ',
-        'subtitle' => 'Всичко което ви трябва на едно място',
+        'title' => t('services_title'),
+        'subtitle' => t('services_subtitle'),
         'items' => [
             [
                 'icon' => 'fas fa-code',
-                'title' => 'Програмиране',
-                'description' => 'Създаваме уникални програми и приложения с най-новите технологии',
+                'title' => t('service_programming'),
+                'description' => t('service_programming_desc'),
                 'color' => '#ff6b35'
             ],
             [
                 'icon' => 'fas fa-paint-brush',
-                'title' => 'Дизайн',
-                'description' => 'Дизайни на всякакви неща - логота, уеб дизайн, графичен дизайн',
+                'title' => t('service_design'),
+                'description' => t('service_design_desc'),
                 'color' => '#f7931e'
             ],
             [
                 'icon' => 'fas fa-server',
-                'title' => 'Game Сървъри',
-                'description' => 'Настройка и поддръжка на сървъри за различни игри',
+                'title' => t('service_servers'),
+                'description' => t('service_servers_desc'),
                 'color' => '#00d4aa'
             ],
             [
                 'icon' => 'fas fa-puzzle-piece',
-                'title' => 'Скриптове & Плугини',
-                'description' => 'Уникални скриптове и плугини за игри и приложения',
+                'title' => t('service_scripts'),
+                'description' => t('service_scripts_desc'),
                 'color' => '#c44569'
             ],
             [
                 'icon' => 'fas fa-cogs',
-                'title' => 'Проекти по поръчка',
-                'description' => 'Специализирани решения според вашите нужди',
+                'title' => t('service_custom'),
+                'description' => t('service_custom_desc'),
                 'color' => '#6c5ce7'
             ],
             [
                 'icon' => 'fas fa-rocket',
-                'title' => 'Консултации',
-                'description' => 'Професионални съвети и техническа поддръжка',
+                'title' => t('service_consulting'),
+                'description' => t('service_consulting_desc'),
                 'color' => '#fd79a8'
             ]
         ]
     ],
     'featured_project' => [
-        'title' => 'FEATURED PROJECT',
-        'subtitle' => 'Разгледайте нашия най-нов проект',
+        'title' => t('featured_title'),
+        'subtitle' => t('featured_subtitle'),
         'project_id' => '' // Ще се зареди от базата данни по-долу
     ]
 ];
@@ -102,7 +139,7 @@ $projects = [];
 
 // Категории на проектите - вече се управляват от базата данни
 $project_categories = [
-    'all' => 'Всички'
+    'all' => t('projects_category_all')
 ];
 
 // Load categories from database
