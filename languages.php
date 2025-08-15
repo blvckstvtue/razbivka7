@@ -109,7 +109,9 @@ $translations = [
         // Featured project
         'featured' => [
             'title' => 'FEATURED PROJECT',
-            'subtitle' => 'Check out our latest project'
+            'subtitle' => 'Check out our latest project',
+            'view_more' => 'View More',
+            'all_projects' => 'All Projects'
         ],
         
         // CTA section
@@ -243,7 +245,9 @@ $translations = [
         // Featured project
         'featured' => [
             'title' => 'FEATURED PROJECT',
-            'subtitle' => 'Разгледайте нашия най-нов проект'
+            'subtitle' => 'Разгледайте нашия най-нов проект',
+            'view_more' => 'Виж повече',
+            'all_projects' => 'Всички проекти'
         ],
         
         // CTA section

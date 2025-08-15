@@ -291,11 +291,11 @@ require_once 'config.php';
                     
                     <div class="project-actions">
                         <a href="projects.php?project=<?= $featured_project['id'] ?>" class="btn btn-primary">
-                            <span>Виж повече</span>
+                            <span><?= t('featured.view_more') ?></span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
                         <a href="projects.php" class="btn btn-outline">
-                            <span>Всички проекти</span>
+                            <span><?= t('featured.all_projects') ?></span>
                             <i class="fas fa-folder-open"></i>
                         </a>
                     </div>
