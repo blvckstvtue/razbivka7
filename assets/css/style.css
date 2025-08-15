@@ -216,6 +216,8 @@ body {
 /* ===== LANGUAGE SWITCHER ===== */
 .language-switcher {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .language-dropdown {
@@ -227,30 +229,46 @@ body {
     align-items: center;
     gap: 0.5rem;
     background: transparent;
-    border: 1px solid var(--border-color);
+    border: none;
     color: var(--text-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
+    padding: 0.5rem 0;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     font-weight: 600;
     transition: all var(--transition-normal);
     text-transform: uppercase;
     letter-spacing: 1px;
+    position: relative;
 }
 
-.language-btn:hover {
-    border-color: var(--primary-color);
+.language-btn::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--gradient-primary);
+    transition: width var(--transition-normal);
+}
+
+.language-btn:hover,
+.language-dropdown.active .language-btn {
     color: var(--primary-color);
-    box-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.5);
+}
+
+.language-btn:hover::before,
+.language-dropdown.active .language-btn::before {
+    width: 100%;
 }
 
 .language-flag {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .language-name {
-    font-size: 0.9rem;
+    font-size: 1.1rem;
 }
 
 .language-btn i {
@@ -1404,6 +1422,14 @@ body {
     .language-btn {
         width: 100%;
         justify-content: center;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+    }
+    
+    .language-btn:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 10px rgba(255, 107, 53, 0.2);
     }
     
     .language-options {
