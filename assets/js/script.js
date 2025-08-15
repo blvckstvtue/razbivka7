@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all components
     initializeLoader();
     initializeNavigation();
+    initializeLanguageSwitcher();
     initializeAnimations();
     initializeCounters();
     initializeContactForm();
@@ -507,3 +508,42 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// ===== LANGUAGE SWITCHER =====
+function initializeLanguageSwitcher() {
+    const languageBtn = document.getElementById('language-btn');
+    const languageDropdown = document.querySelector('.language-dropdown');
+    const languageOptions = document.getElementById('language-options');
+    
+    if (!languageBtn || !languageDropdown) return;
+
+    // Toggle dropdown on button click
+    languageBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        languageDropdown.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!languageDropdown.contains(e.target)) {
+            languageDropdown.classList.remove('active');
+        }
+    });
+
+    // Close dropdown on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            languageDropdown.classList.remove('active');
+        }
+    });
+
+    // Handle language option clicks
+    const languageOptionLinks = document.querySelectorAll('.language-option');
+    languageOptionLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Let the browser handle the navigation
+            languageDropdown.classList.remove('active');
+        });
+    });
+}
