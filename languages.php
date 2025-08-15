@@ -65,6 +65,12 @@ $translations = [
                 'clients' => 'Happy clients',
                 'experience' => 'Years of experience',
                 'quality' => 'Quality'
+            ],
+            'features' => [
+                'innovative' => 'Innovative Solutions',
+                'quality' => 'High Quality',
+                'delivery' => 'On-time Delivery',
+                'support' => '24/7 Support'
             ]
         ],
         
@@ -104,6 +110,14 @@ $translations = [
         'featured' => [
             'title' => 'FEATURED PROJECT',
             'subtitle' => 'Check out our latest project'
+        ],
+        
+        // CTA section
+        'cta' => [
+            'title' => 'Ready for the next project?',
+            'subtitle' => 'Contact us today and let\'s create something amazing together',
+            'view_projects' => 'View Our Projects',
+            'contact_us' => 'Contact Us'
         ],
         
         // Projects page
@@ -185,6 +199,12 @@ $translations = [
                 'clients' => 'Доволни клиенти',
                 'experience' => 'Години опит',
                 'quality' => 'Качество'
+            ],
+            'features' => [
+                'innovative' => 'Иновативни решения',
+                'quality' => 'Високо качество',
+                'delivery' => 'Навременна доставка',
+                'support' => '24/7 Поддръжка'
             ]
         ],
         
@@ -224,6 +244,14 @@ $translations = [
         'featured' => [
             'title' => 'FEATURED PROJECT',
             'subtitle' => 'Разгледайте нашия най-нов проект'
+        ],
+        
+        // CTA section
+        'cta' => [
+            'title' => 'Готови за следващия проект?',
+            'subtitle' => 'Свържете се с нас днес и нека създадем нещо невероятно заедно',
+            'view_projects' => 'Виж нашите проекти',
+            'contact_us' => 'Свържи се с нас'
         ],
         
         // Projects page

@@ -179,19 +179,19 @@ require_once 'config.php';
                     <div class="about-features">
                         <div class="feature-item">
                             <i class="fas fa-rocket"></i>
-                            <span>Иновативни решения</span>
+                            <span><?= t('about.features.innovative') ?></span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-shield-alt"></i>
-                            <span>Високо качество</span>
+                            <span><?= t('about.features.quality') ?></span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-clock"></i>
-                            <span>Навременна доставка</span>
+                            <span><?= t('about.features.delivery') ?></span>
                         </div>
                         <div class="feature-item">
                             <i class="fas fa-headset"></i>
-                            <span>24/7 Поддръжка</span>
+                            <span><?= t('about.features.support') ?></span>
                         </div>
                     </div>
                 </div>
@@ -313,17 +313,17 @@ require_once 'config.php';
         
         <div class="container">
             <div class="cta-content" data-aos="fade-up">
-                <h2 class="cta-title">Готови за следващия проект?</h2>
+                <h2 class="cta-title"><?= t('cta.title') ?></h2>
                 <p class="cta-description">
-                    Свържете се с нас днес и нека създадем нещо невероятно заедно
+                    <?= t('cta.subtitle') ?>
                 </p>
                 <div class="cta-buttons">
                     <a href="projects.php" class="btn btn-primary btn-glow">
-                        <span>Виж нашите проекти</span>
+                        <span><?= t('cta.view_projects') ?></span>
                         <i class="fas fa-arrow-right"></i>
                     </a>
                     <a href="#contact" class="btn btn-outline">
-                        <span>Свържи се с нас</span>
+                        <span><?= t('cta.contact_us') ?></span>
                         <i class="fas fa-envelope"></i>
                     </a>
                 </div>
